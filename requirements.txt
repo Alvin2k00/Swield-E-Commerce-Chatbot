@@ -1,0 +1,10 @@
+flask
+flask-cors
+transformers
+torch
+langchain
+langchain-community
+chromadb
+sentence-transformers
+huggingface-hub
+accelerate

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SWIELD — Store</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:system-ui,sans-serif;background:#fff;color:#1a1a1a}
+    nav{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 2.5rem;border-bottom:1px solid #e5e5e5;position:sticky;top:0;background:#fff;z-index:100}
+    .logo{font-size:1.3rem;font-weight:500;letter-spacing:0.12em}
+    .nav-links{display:flex;gap:2rem}
+    .nav-links a{font-size:0.875rem;color:#666;text-decoration:none;transition:color 0.2s}
+    .nav-links a:hover{color:#1a1a1a}
+    .nav-cta{font-size:0.8rem;padding:0.45rem 1.1rem;border:1px solid #ccc;border-radius:8px;cursor:pointer;background:transparent;font-family:inherit;transition:background 0.2s}
+    .nav-cta:hover{background:#f5f5f5}
+    section{padding:4rem 2.5rem}
+    .hero{min-height:62vh;display:flex;flex-direction:column;justify-content:center;border-bottom:1px solid #e5e5e5;padding-top:5rem;padding-bottom:5rem}
+    .hero-tag{font-size:0.75rem;letter-spacing:0.2em;color:#999;margin-bottom:1.5rem;text-transform:uppercase}
+    .hero h1{font-size:clamp(2.2rem,5vw,3.8rem);font-weight:400;line-height:1.15;max-width:640px;margin-bottom:1.5rem}
+    .hero p{font-size:1rem;color:#666;max-width:440px;line-height:1.7;margin-bottom:2.5rem}
+    .hero-btns{display:flex;gap:1rem;align-items:center}
+    .btn-primary{padding:0.65rem 1.5rem;background:#1a1a1a;color:#fff;border:none;border-radius:8px;font-size:0.875rem;cursor:pointer;font-family:inherit;transition:opacity 0.2s}
+    .btn-primary:hover{opacity:0.85}
+    .btn-ghost{font-size:0.875rem;color:#666;background:none;border:none;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:0.4rem}
+    .section-label{font-size:0.72rem;letter-spacing:0.2em;color:#999;text-transform:uppercase;margin-bottom:2.5rem}
+    .cats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;border:1px solid #e5e5e5;border-radius:12px;overflow:hidden}
+    .cat-card{padding:2rem 1.5rem;background:#fff;transition:background 0.2s;cursor:pointer;border:none;text-align:left;width:100%}
+    .cat-card:hover{background:#f9f9f9}
+    .cat-icon{font-size:1.5rem;color:#666;margin-bottom:1.2rem}
+    .cat-card h3{font-size:1rem;font-weight:500;margin-bottom:0.5rem}
+    .cat-card p{font-size:0.82rem;color:#666;line-height:1.6}
+    .cat-count{display:inline-block;margin-top:1rem;font-size:0.75rem;color:#999}
+    .plans-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:0.5rem}
+    .plan-card{padding:1.8rem 1.5rem;border:1px solid #e5e5e5;border-radius:12px;background:#fff;display:flex;flex-direction:column;gap:1rem}
+    .plan-card.featured{border:2px solid #3b82f6}
+    .plan-badge{font-size:0.7rem;background:#eff6ff;color:#1d4ed8;padding:3px 10px;border-radius:8px;display:inline-block;margin-bottom:0.25rem}
+    .plan-name{font-size:0.8rem;font-weight:500;color:#666}
+    .plan-price{font-size:2rem;font-weight:400;line-height:1}
+    .plan-price span{font-size:0.875rem;font-weight:400;color:#666}
+    .plan-features{list-style:none;display:flex;flex-direction:column;gap:0.6rem;flex:1}
+    .plan-features li{font-size:0.82rem;color:#666;display:flex;align-items:center;gap:0.5rem}
+    .plan-features li i{color:#16a34a;font-size:14px}
+    .plan-btn{padding:0.55rem 1rem;border:1px solid #ccc;border-radius:8px;background:transparent;font-size:0.8rem;cursor:pointer;font-family:inherit;transition:background 0.2s;text-align:center;width:100%}
+    .plan-btn:hover{background:#f5f5f5}
+    .plan-btn.featured-btn{background:#1a1a1a;color:#fff;border-color:transparent}
+    .plan-btn.featured-btn:hover{opacity:0.85}
+    .chat-fab{position:fixed;bottom:1.8rem;right:1.8rem;width:52px;height:52px;border-radius:50%;background:#1a1a1a;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.2rem;transition:transform 0.2s;z-index:999}
+    .chat-fab:hover{transform:scale(1.07)}
+    .chat-window{position:fixed;bottom:5.5rem;right:1.8rem;width:340px;height:460px;background:#fff;border:1px solid #e5e5e5;border-radius:16px;display:flex;flex-direction:column;overflow:hidden;z-index:998;box-shadow:0 4px 24px rgba(0,0,0,0.08);display:none}
+    .chat-window.open{display:flex}
+    .chat-header{padding:1rem 1.2rem;border-bottom:1px solid #e5e5e5;display:flex;align-items:center;justify-content:space-between}
+    .chat-header-info{display:flex;align-items:center;gap:0.6rem}
+    .chat-dot{width:8px;height:8px;border-radius:50%;background:#16a34a}
+    .chat-header h4{font-size:0.875rem;font-weight:500}
+    .chat-header p{font-size:0.75rem;color:#999}
+    .chat-close{background:none;border:none;cursor:pointer;color:#999;font-size:1rem}
+    .chat-messages{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:0.75rem}
+    .msg{max-width:80%;padding:0.6rem 0.9rem;border-radius:12px;font-size:0.82rem;line-height:1.5}
+    .msg.bot{background:#f5f5f5;color:#1a1a1a;align-self:flex-start;border-bottom-left-radius:4px}
+    .msg.user{background:#1a1a1a;color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+    .msg.loading{color:#999}
+    .chat-input-row{padding:0.75rem 1rem;border-top:1px solid #e5e5e5;display:flex;gap:0.5rem}
+    .chat-input-row input{flex:1;border:1px solid #e5e5e5;border-radius:8px;padding:0.5rem 0.75rem;font-size:0.82rem;font-family:inherit;outline:none}
+    .chat-input-row input:focus{border-color:#999}
+    .chat-send{background:#1a1a1a;color:#fff;border:none;border-radius:8px;padding:0.5rem 0.9rem;cursor:pointer;font-size:0.8rem;font-family:inherit}
+    .chat-send:hover{opacity:0.85}
+    footer{padding:2rem 2.5rem;border-top:1px solid #e5e5e5;display:flex;justify-content:space-between;align-items:center}
+    footer p{font-size:0.8rem;color:#999}
+  </style>
+</head>
+<body>
+
+<nav>
+  <span class="logo">SWIELD</span>
+  <div class="nav-links">
+    <a href="#home">Home</a>
+    <a href="#categories">Categories</a>
+    <a href="#membership">Membership</a>
+  </div>
+  <button class="nav-cta">Sign in</button>
+</nav>
+
+<section class="hero" id="home">
+  <p class="hero-tag">New arrivals — Spring 2026</p>
+  <h1>Everything you need, all in one place.</h1>
+  <p>Shop electronics, clothing and home essentials with fast delivery and flexible membership plans designed for every lifestyle.</p>
+  <div class="hero-btns">
+    <button class="btn-primary">Shop now</button>
+    <button class="btn-ghost">View membership <i class="ti ti-arrow-right"></i></button>
+  </div>
+</section>
+
+<section id="categories">
+  <p class="section-label">Categories</p>
+  <div class="cats-grid">
+    <button class="cat-card">
+      <div class="cat-icon"><i class="ti ti-device-laptop"></i></div>
+      <h3>Electronics</h3>
+      <p>Laptops, phones, audio, accessories and the latest tech essentials.</p>
+      <span class="cat-count">120+ products</span>
+    </button>
+    <button class="cat-card">
+      <div class="cat-icon"><i class="ti ti-shirt"></i></div>
+      <h3>Clothing</h3>
+      <p>Everyday basics, seasonal styles and curated collections for all occasions.</p>
+      <span class="cat-count">200+ products</span>
+    </button>
+    <button class="cat-card">
+      <div class="cat-icon"><i class="ti ti-home"></i></div>
+      <h3>Home Essentials</h3>
+      <p>Kitchen, bedding, storage and everything to make your space feel right.</p>
+      <span class="cat-count">90+ products</span>
+    </button>
+  </div>
+</section>
+
+<section id="membership" style="border-top:1px solid #e5e5e5">
+  <p class="section-label">Membership</p>
+  <div class="plans-grid">
+    <div class="plan-card">
+      <div>
+        <p class="plan-name">Free</p>
+        <p class="plan-price">£0 <span>/ month</span></p>
+      </div>
+      <ul class="plan-features">
+        <li><i class="ti ti-check"></i> Access to all categories</li>
+        <li><i class="ti ti-check"></i> Standard delivery (5–7 days)</li>
+        <li><i class="ti ti-check"></i> Basic customer support</li>
+      </ul>
+      <button class="plan-btn">Get started</button>
+    </div>
+    <div class="plan-card featured">
+      <div>
+        <span class="plan-badge">Most popular</span>
+        <p class="plan-name">Standard</p>
+        <p class="plan-price">£7 <span>/ month</span></p>
+      </div>
+      <ul class="plan-features">
+        <li><i class="ti ti-check"></i> Everything in Free</li>
+        <li><i class="ti ti-check"></i> Fast delivery (2–3 days)</li>
+        <li><i class="ti ti-check"></i> 10% off all orders</li>
+        <li><i class="ti ti-check"></i> Priority support</li>
+      </ul>
+      <button class="plan-btn featured-btn">Choose Standard</button>
+    </div>
+    <div class="plan-card">
+      <div>
+        <p class="plan-name">Premium</p>
+        <p class="plan-price">£15 <span>/ month</span></p>
+      </div>
+      <ul class="plan-features">
+        <li><i class="ti ti-check"></i> Everything in Standard</li>
+        <li><i class="ti ti-check"></i> Free next-day delivery</li>
+        <li><i class="ti ti-check"></i> 20% off all orders</li>
+        <li><i class="ti ti-check"></i> Early access to new arrivals</li>
+        <li><i class="ti ti-check"></i> Dedicated account manager</li>
+      </ul>
+      <button class="plan-btn">Choose Premium</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 SWIELD. All rights reserved.</p>
+  <p>Built as a demo project.</p>
+</footer>
+
+<div class="chat-window" id="chatWindow">
+  <div class="chat-header">
+    <div class="chat-header-info">
+      <div class="chat-dot"></div>
+      <div>
+        <h4>SWIELD Assistant</h4>
+        <p>Ask me anything about our store</p>
+      </div>
+    </div>
+    <button class="chat-close" id="chatClose"><i class="ti ti-x"></i></button>
+  </div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="msg bot">Hi! I am the SWIELD assistant. Ask me about our products, membership plans or orders.</div>
+  </div>
+  <div class="chat-input-row">
+    <input type="text" id="chatInput" placeholder="Type a message..." />
+    <button class="chat-send" id="chatSend">Send</button>
+  </div>
+</div>
+
+<button class="chat-fab" id="chatFab" aria-label="Open chat assistant">
+  <i class="ti ti-message-circle"></i>
+</button>
+
+<script>
+  const fab = document.getElementById('chatFab');
+  const win = document.getElementById('chatWindow');
+  const closeBtn = document.getElementById('chatClose');
+  const sendBtn = document.getElementById('chatSend');
+  const input = document.getElementById('chatInput');
+  const messages = document.getElementById('chatMessages');
+
+  fab.addEventListener('click', () => win.classList.toggle('open'));
+  closeBtn.addEventListener('click', () => win.classList.remove('open'));
+
+  function addMsg(text, type) {
+    const div = document.createElement('div');
+    div.className = `msg ${type}`;
+    div.textContent = text;
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+    return div;
+  }
+
+  async function sendMessage() {
+    const text = input.value.trim();
+    if (!text) return;
+    addMsg(text, 'user');
+    input.value = '';
+    const loading = addMsg('Thinking...', 'bot loading');
+    try {
+      const res = await fetch('/chatbot', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true'
+        },
+        body: JSON.stringify({ message: text })
+      });
+      const data = await res.json();
+      loading.remove();
+      addMsg(data.response || data.error, 'bot');
+    } catch {
+      loading.remove();
+      addMsg('Could not reach the assistant. Make sure the server is running.', 'bot');
+    }
+  }
+
+  sendBtn.addEventListener('click', sendMessage);
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(); });
+</script>
+
+</body>
+</html>
