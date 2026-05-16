@@ -1,3 +1,12 @@
+---
+title: Swield Chatbot
+emoji: 🛍️
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+pinned: false
+---
+
 # Swield-E-Commerce-Chatbot
 
 A customer support chatbot built for SWIELD, a fictional e-commerce store. The chatbot uses sentiment analysis to detect the user's mood and RAG to retrieve relevant answers from a knowledge base, responding naturally and appropriately.
